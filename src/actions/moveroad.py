@@ -3,7 +3,8 @@ from src.playerprofile import PlayerProfile
 from typing import Dict
 from src.mapfeatures.intersection import Intersection
 
-class Move(Action):
+
+class MoveRoad(Action):
 
     def __init__(self, intersection_id : int):
         self.intersection_id = intersection_id

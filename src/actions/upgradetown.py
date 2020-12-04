@@ -14,5 +14,4 @@ class UpgradeTown(Action):
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
         player_profile.resources["WHEAT"] -= 200
         player_profile.resources["IRON"] -= 300
-
         self.city.upgrade()
