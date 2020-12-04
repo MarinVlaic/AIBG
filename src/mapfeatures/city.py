@@ -1,4 +1,4 @@
-from intersection import Intersection
+from mapfeatures.intersection import Intersection
 
 class City:
     def __init__(self, intersection: Intersection):
