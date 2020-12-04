@@ -1,6 +1,6 @@
-from actions.action import Action
-from mapfeatures.intersection import Intersection
-from playerprofile import PlayerProfile
+from action import Action
+from src.mapfeatures.intersection import Intersection
+from src.playerprofile import PlayerProfile
 from typing import Dict
 
 class BuildRoad(Action):

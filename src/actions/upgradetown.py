@@ -1,4 +1,4 @@
-from actions.action import Action
+from action import Action
 from src.playerprofile import PlayerProfile
 from src.mapfeatures.intersection import Intersection
 from typing import Dict

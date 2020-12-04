@@ -1,7 +1,7 @@
-from actions.action import Action
-from playerprofile import PlayerProfile
+from action import Action
+from src.playerprofile import PlayerProfile
 from typing import Dict
-from mapfeatures.intersection import Intersection
+from src.mapfeatures.intersection import Intersection
 
 class Move(Action):
 
