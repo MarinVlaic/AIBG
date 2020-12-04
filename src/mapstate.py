@@ -1,8 +1,8 @@
 import json
 from playerprofile import PlayerProfile
 from intersection import Intersection
-from move import Move
 from typing import List
+from action import Action
 
 
 class MapState:
@@ -11,6 +11,6 @@ class MapState:
         self.second_player_profile = second_player_profile
         self.all_intersections = self.all_intersections
 
-    def apply_move(self, move: Move):
+    def apply_move(self, move: Action):
         #TODO: apply logic to applaying move to the map state (call .aplly on move object)
         pass
