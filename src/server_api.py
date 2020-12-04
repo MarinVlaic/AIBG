@@ -23,4 +23,5 @@ class ServerRequestManager:
         return Action(response.json()['result'])
 
     def do_initial_action(self, action: Tuple[Action]) -> Tuple[Action]:
+
         return (Action(), Action())
