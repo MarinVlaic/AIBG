@@ -9,7 +9,7 @@ class UpgradeTown(Action):
         self.city = city
 
     def __repr__(self):
-        pass
+        return f'upgradetown {self.city}'
 
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
         player_profile.resources["WHEAT"] -= 200

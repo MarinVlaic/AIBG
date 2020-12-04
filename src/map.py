@@ -11,6 +11,7 @@ class Map:
         self.map = full_map_info['map']
 
         self.tile_info = self.map['tiles']
+        self.tiles = []
         self.create_tiles()
 
     def create_tiles(self):
@@ -24,7 +25,6 @@ class Map:
 
     def get_intersection_neighs(self, index):
         return self.intersection_neighbourhood[index]
-
 
     def get_tiles_neighs(self, index):
         return [self.tiles[neigh['y']][neigh['x']] for neigh in self.tile_neighbourhood[index]]

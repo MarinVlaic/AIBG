@@ -13,6 +13,6 @@ class BuildRoad(Action):
         player_profile.resources['WOOD'] -= 100
         player_profile.resources['CLAY'] -= 100
 
-        intersections[self.id_int1].roads_to_neighbouring_intersections.append(self.id_int2)
-        intersections[self.id_int2].roads_to_neighbouring_intersections.append(self.id_int2)
+        intersections[self.id_int1].roads_to_neighbouring_intersections_ids.append(self.id_int2)
+        intersections[self.id_int2].roads_to_neighbouring_intersections_ids.append(self.id_int2)
 

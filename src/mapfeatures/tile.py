@@ -1,3 +1,5 @@
+
+
 class Tile:
     def __init__(self, data):
         self.type = data['resourceType']

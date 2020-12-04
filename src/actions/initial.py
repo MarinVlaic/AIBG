@@ -3,6 +3,7 @@ from src.playerprofile import PlayerProfile
 from typing import Dict
 from src.mapfeatures.intersection import Intersection
 
+
 class Initial(Action):
     def __init__(self, i1, i2):
         self.first_intersection = i1
@@ -12,4 +13,5 @@ class Initial(Action):
         return f"initial {self.first_intersection} {self.second_intersection}"
 
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
-        pass
+        player_profile.cities.append(self.first_intersection)
+        intersections[self.first_intersection].roads_to_neighbouring_intersections_ids.append(self.second_intersection)

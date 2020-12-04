@@ -7,4 +7,5 @@ class City:
         self.level = 1
 
     def upgrade(self):
+
         self.level = 2
