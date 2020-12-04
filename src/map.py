@@ -1,5 +1,5 @@
 import json
-import tile
+from src.mapfeatures import tile
 
 
 class Map:
