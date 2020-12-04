@@ -19,4 +19,4 @@ class ServerRequestManager:
 
     def do_action(self, action: str) -> Action:
         response = requests.get
-        return Action()
+        return Action(response.json())
