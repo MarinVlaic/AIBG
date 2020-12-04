@@ -1,6 +1,6 @@
 import requests
 from src import map
-from action import Action
+from src.actions.action import Action
 from typing import Tuple
 
 

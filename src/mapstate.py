@@ -1,8 +1,7 @@
-import json
 from playerprofile import PlayerProfile
 from intersection import Intersection
 from typing import List
-from action import Action
+from src.actions.action import Action
 
 
 class MapState:
