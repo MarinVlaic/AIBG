@@ -1,4 +1,4 @@
-from src.tile import Tile
+from tile import Tile
 
 class Intersection:
     def __init__(self, neighbouring_tiles: list[Tile], id, neighbouring_intersection_ids):

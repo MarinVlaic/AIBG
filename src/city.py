@@ -1,4 +1,4 @@
-from src.intersection import Intersection
+from intersection import Intersection
 
 class City:
     def __init__(self, intersection: Intersection):

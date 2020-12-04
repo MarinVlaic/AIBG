@@ -1,7 +1,7 @@
 import json
-from src.playerprofile import PlayerProfile
-from src.intersection import Intersection
-from src.move import Move
+from playerprofile import PlayerProfile
+from intersection import Intersection
+from move import Move
 
 
 class MapState:
