@@ -2,10 +2,11 @@ import json
 from playerprofile import PlayerProfile
 from intersection import Intersection
 from move import Move
+from typing import List
 
 
 class MapState:
-    def __init__(self, first_player_profile: PlayerProfile, second_player_profile: PlayerProfile, all_intersections: list[Intersection]):
+    def __init__(self, first_player_profile: PlayerProfile, second_player_profile: PlayerProfile, all_intersections: List[Intersection]):
         self.first_player_profile = first_player_profile
         self.second_player_profile = second_player_profile
         self.all_intersections = self.all_intersections
