@@ -1,4 +1,4 @@
-from mapfeatures.intersection import Intersection
+from src.mapfeatures.intersection import Intersection
 
 
 class City:

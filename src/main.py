@@ -1,5 +1,7 @@
 import requests
-import server_api
+import src.server_api as server_api
+from src.actions.action import Action
+from src.mapfeatures.city import City
 
 
 game_id = int(input("Game id: "))

@@ -1,4 +1,4 @@
-from tile import Tile
+from src.mapfeatures.tile import Tile
 from typing import List
 
 

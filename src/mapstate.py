@@ -1,4 +1,4 @@
-from playerprofile import PlayerProfile
+from src.playerprofile import PlayerProfile
 from src.mapfeatures.intersection import Intersection
 from typing import List
 from src.actions.action import Action

@@ -1,4 +1,4 @@
-from action import Action
+from src.actions.action import Action
 from src.playerprofile import PlayerProfile
 from src.mapfeatures.intersection import Intersection
 from src.mapfeatures.city import City
