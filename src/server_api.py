@@ -1,7 +1,21 @@
 import requests
 from src import map
 from src.actions.action import Action
-from typing import Tuple
+from src.actions.initial import Initial
+from src.actions.buildtown import BuildTown
+from src.actions.move import Move
+from src.actions.upgradetown import UpgradeTown
+from src.actions.empty import Empty
+from src.actions.buildroad import BuildRoad
+import re
+
+class_map = {
+    'buildtown': BuildTown,
+    'buildroad': BuildRoad,
+    'move': Move,
+    'upgradetown': UpgradeTown,
+    'empty': Empty
+}
 
 
 class ServerRequestManager:
@@ -24,5 +38,20 @@ class ServerRequestManager:
 
     @staticmethod
     def __actionize(response):
-        return Action()
+        sp = response.split(' ')
+        if len(sp) == 1:
+            m = re.fullmatch('([A-Za-z]+)', response)
+            if m is None:
+                raise ValueError('Unexpected')
+            return class_map[m.group(1)]()
+        elif len(sp) == 2:
+            m = re.fullmatch('([A-Za-z]+) ([0-9])+', response)
+            if m is None:
+                raise ValueError('Unexpected')
+            return class_map[m.group(1)](int(m.group(2)))
+        elif len(sp) == 3:
+            return Initial(int(sp[1]), int(sp[2]))
+        else:
+            raise ValueError('Unexpected number of arguments')
+
 
