@@ -1,6 +1,7 @@
 import requests
 from src import map
 from action import Action
+from typing import Tuple
 
 
 class ServerRequestManager:
@@ -21,5 +22,5 @@ class ServerRequestManager:
         response = requests.get(f"{self.server_url}doAction?playerId={self.player_id}&gameId={self.game_id}&action={action}").json()
         return Action(response.json()['result'])
 
-    def do_initial_action(self, action: tuple(Action)) -> tuple(Action):
+    def do_initial_action(self, action: Tuple[Action]) -> Tuple[Action]:
         return (Action(), Action())
