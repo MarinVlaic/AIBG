@@ -1,6 +1,6 @@
 from actions.action import Action
 from mapfeatures.intersection import Intersection
-from mapfeatures.playerprofile import PlayerProfile
+from playerprofile import PlayerProfile
 from typing import Dict
 
 class BuildRoad(Action):
