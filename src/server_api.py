@@ -3,7 +3,7 @@ from src import map
 from src.actions.action import Action
 from src.actions.initial import Initial
 from src.actions.buildtown import BuildTown
-from src.actions.move import Move
+from src.actions.movenoroad import Move
 from src.actions.upgradetown import UpgradeTown
 from src.actions.empty import Empty
 from src.actions.buildroad import BuildRoad
