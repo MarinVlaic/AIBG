@@ -10,9 +10,9 @@ class BuildTown(Action):
         self.intersection_index = intersection_index
 
     def __repr__(self):
-        pass
+        return f"buildtown {self.intersection_index}"
 
-    def apply_move(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
+    def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
         player_profile.resources["SHEEP"] -= 100
         player_profile.resources["WOOD"] -= 100
         player_profile.resources["WHEAT"] -= 100

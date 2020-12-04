@@ -9,7 +9,7 @@ class BuildRoad(Action):
         self.id_int1 = intersection1
         self.id_int2 = intersection2
 
-    def apply_move(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
+    def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
         player_profile.resources['WOOD'] -= 100
         player_profile.resources['CLAY'] -= 100
 
