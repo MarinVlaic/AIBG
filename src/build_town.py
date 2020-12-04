@@ -1,10 +1,9 @@
-from action import Action
+from src.action import Action
 from src.playerprofile import PlayerProfile
-from src.mapfeatures.intersection import Intersection
-from src.mapfeatures.city import City
+from src.intersection import Intersection
 from typing import Dict
 
-class BuildTown(Action):
+class Build_town(Action):
     def __init__(self, intersection_index):
         self.intersection_index = intersection_index
 
@@ -16,7 +15,10 @@ class BuildTown(Action):
         player_profile.resources["WOOD"] = player_profile.resources.get("WOOD") - 100
         player_profile.resources["WHEAT"] = player_profile.resources.get("WHEAT") - 100
         player_profile.resources["CLAY"] = player_profile.resources.get("CLAY") - 100
-
-        player_profile.cities.append(City(intersections.get(self.intersection_index)))
-
+        player_profile
         intersections.get(self.intersection_index).captured = True
+
+
+
+        pass
+
