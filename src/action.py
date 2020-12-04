@@ -1,3 +1,6 @@
 class Action:
-    def __init__(self):
+    def __init__(self, action):
+        pass
+
+    def __repr__(self):
         pass
