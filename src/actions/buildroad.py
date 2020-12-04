@@ -3,6 +3,7 @@ from src.mapfeatures.intersection import Intersection
 from src.playerprofile import PlayerProfile
 from typing import Dict
 
+
 class BuildRoad(Action):
     def __init__(self, intersection1: int, intersection2: int):
         self.id_int1 = intersection1
