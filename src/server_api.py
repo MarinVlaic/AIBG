@@ -20,8 +20,9 @@ class ServerRequestManager:
 
     def do_action(self, action: Action) -> Action:
         response = requests.get(f"{self.server_url}doAction?playerId={self.player_id}&gameId={self.game_id}&action={action}").json()
-        return Action(response.json()['result'])
+        return self.__actionize(response.json()['result'])
 
-    def do_initial_action(self, action: Tuple[Action]) -> Tuple[Action]:
+    @staticmethod
+    def __actionize(response):
+        return Action()
 
-        return (Action(), Action())

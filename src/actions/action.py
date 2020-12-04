@@ -1,5 +1,5 @@
-from playerprofile import PlayerProfile
-from intersection import Intersection
+from src.playerprofile import PlayerProfile
+from src.mapfeatures.intersection import Intersection
 from typing import Dict
 
 

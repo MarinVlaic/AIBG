@@ -1,0 +1,2 @@
+class UpgradeTown:
+    pass
