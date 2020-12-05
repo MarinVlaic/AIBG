@@ -10,6 +10,7 @@ from typing import Dict
 from src.firstheuristic import *
 from copy import deepcopy
 from map_state_heuristic import get_map_state_grade
+from random import randint
 
 
 def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
@@ -38,7 +39,10 @@ def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
     # Generate upgrade cities
 
     if player.has_enough_resources({"WHEAT": 200, "IRON": 300}):
-        [all_moves.append(UpgradeTown(i)) for i in player.cities if i.level == 1]
+        for city in player.cities:
+            if city.level == 1:
+                all_moves.append(UpgradeTown(city))
+        #[all_moves.append(UpgradeTown(i)) for i in player.cities if i.level == 1]
 
     # Generate build roads
 
@@ -51,8 +55,11 @@ def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
     all_moves.append(Empty())
     return all_moves
 
+
 def is_buildable(intersection_id, intersections, opposing_player: PlayerProfile):
     intersection = intersections[intersection_id]
+    if intersection.captured:
+        return False
     counter = 0
     for n in intersection.neighbouring_intersection_ids:
         if intersections[n].captured:
@@ -67,6 +74,14 @@ def is_road_buildable(intersection_from_id, intersection_to_id, intersections, p
     for opposing_player_city in opposing_player.cities:
         if opposing_player_city.intersection.id in (intersection_to_id, intersection_from_id):
             return False
+
+    if "WATER" in set([tile.type for tile in intersections[intersection_from_id].neighbouring_tiles]).intersection(
+        set([tile.type for tile in intersections[intersection_to_id].neighbouring_tiles])
+    ):
+        return False
+
+    if player.check_road(intersection_from_id, intersection_to_id) or opposing_player.check_road(intersection_from_id, intersection_to_id):
+        return False
 
     counter_to = 0
     counter_from = 0
@@ -114,13 +129,13 @@ def initial_actions(player: PlayerProfile, map_state: MapState, resources: Dict[
 
 def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
     possible_moves = []
-    for move in get_all_available_moves(map_state, player):
-        new_map_state = deepcopy(map_state)
-        playing_player = new_map_state.first_player_profile if new_map_state.first_player_profile == player else new_map_state.second_player_profile
-        new_map_state.apply_action(move, playing_player)
-        possible_moves.append((get_map_state_grade(new_map_state, playing_player, resources), move))
-
-
-    possible_moves.sort(key=lambda x: x[0], reverse=True)
-    return possible_moves[0]
+    all_available_moves = get_all_available_moves(map_state, player)
+    return all_available_moves[randint(0, len(all_available_moves)) - 1]
+    # for move in get_all_available_moves(map_state, player):
+    #     new_map_state = deepcopy(map_state)
+    #     playing_player = new_map_state.first_player_profile if new_map_state.first_player_profile == player else new_map_state.second_player_profile
+    #     new_map_state.apply_action(move, playing_player)
+    #     possible_moves.append((get_map_state_grade(new_map_state, playing_player, resources), move))
+    # possible_moves.sort(key=lambda x: x[0], reverse=True)
+    # return possible_moves[0][1]
 

@@ -10,11 +10,10 @@ class Move(Action):
         self.intersection_id = intersection_id
 
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
-        player_profile.current_builder_intersection_position = intersections[self.intersection_id]
-
         if not player_profile.check_road(self.intersection_id, player_profile.current_builder_intersection_position_id):
             player_profile.resources["SHEEP"] -= 50
             player_profile.resources["WHEAT"] -= 50
+        player_profile.current_builder_intersection_position_id = self.intersection_id
 
     def __repr__(self):
         return f'move {self.intersection_id}'

@@ -14,6 +14,7 @@ class Initial(Action):
         return f"initial {self.first_intersection} {self.second_intersection}"
 
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
-        player_profile.cities.append(City(self.first_intersection))
+        player_profile.cities.append(City(intersections[self.first_intersection]))
+        intersections[self.first_intersection].captured = True
         player_profile.current_builder_intersection_position_id = self.first_intersection
         player_profile.add_road(self.second_intersection)

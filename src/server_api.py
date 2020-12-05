@@ -40,15 +40,9 @@ class ServerRequestManager:
     def __actionize(response):
         sp = response.split(' ')
         if len(sp) == 1:
-            m = re.fullmatch('([A-Za-z]+)', response)
-            if m is None:
-                raise ValueError('Unexpected')
             return class_map[sp[0]]()
         elif len(sp) == 2:
-            m = re.fullmatch('([A-Za-z]+) ([0-9])+', response)
-            if m is None:
-                raise ValueError('Unexpected')
-            return class_map[m.group(1)](int(m.group(2)))
+            return class_map[sp[0]](int(sp[1]))
         elif len(sp) == 3:
             return Initial(int(sp[1]), int(sp[2]))
         else:
