@@ -117,7 +117,11 @@ def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, 
     for move in get_all_available_moves(map_state, player):
         new_map_state = deepcopy(map_state)
         new_map_state.apply_action(move)
-        possible_moves.append((get_map_state_grade(new_map_state, player, resources), move))
+        if new_map_state.first_player_profile == player:
+            possible_moves.append((get_map_state_grade(new_map_state, new_map_state.first_player_profile, resources), move))
+        else:
+            possible_moves.append((get_map_state_grade(new_map_state, new_map_state.second_player_profile, resources), move))
+
 
     possible_moves.sort(key=lambda x: x[0], reverse=True)
     return possible_moves[0]
