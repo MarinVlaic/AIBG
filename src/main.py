@@ -37,7 +37,7 @@ if player_id == 1:
     action = initial_actions(player, map_state, resources)
     t = threading.Thread(target=map_state.apply_action, args=(action, player))
     t.start()
-    resp = requests.get(f"{url}doAction?playerId={player_id}&gameId={game_id}&action={action}").json()
+    resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
     t.join()
 
     m = re.fullmatch('initial ([0-9]+) ([0-9]+) initial ([0-9]+) ([0-9]+)', resp['result'])
@@ -48,7 +48,7 @@ if player_id == 1:
     action = initial_actions(player, map_state, resources)
     t = threading.Thread(target=map_state.apply_action, args=(action, player))
     t.start()
-    resp = requests.get(f"{url}doAction?playerId={player_id}&gameId={game_id}&action={action}").json()
+    resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
     t.join()
 
 else:
@@ -59,13 +59,13 @@ else:
     action = initial_actions(player, map_state, resources)
     t = threading.Thread(target=map_state.apply_action, args=(action, player))
     t.start()
-    resp = requests.get(f"{url}doAction?playerId={player_id}&gameId={game_id}&action={action}").json()
+    resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
     t.join()
 
     action = initial_actions(player, map_state, resources)
     t = threading.Thread(target=map_state.apply_action, args=(action, player))
     t.start()
-    resp = requests.get(f"{url}doAction?playerId={player_id}&gameId={game_id}&action={action}").json()
+    resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
     t.join()
 
     m = re.fullmatch('initial ([0-9]+) ([0-9]+) ([A-Za-z]+)( [0-9]+)*', resp['result'])

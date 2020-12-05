@@ -29,12 +29,12 @@ class ServerRequestManager:
         return response.json()
 
     def check_action(self, action: Action) -> bool:
-        response = requests.get(f"{self.server_url}canAction?playerId={self.player_id}&gameId={self.game_id}&action={action}")
+        response = requests.get(f"{self.server_url}canAction?playerID={self.player_id}&gameID={self.game_id}&action={action}")
         return True
 
     def do_action(self, action: Action) -> Action:
-        response = requests.get(f"{self.server_url}doAction?playerId={self.player_id}&gameId={self.game_id}&action={action}").json()
-        return self.__actionize(response.json()['result'])
+        response = requests.get(f"{self.server_url}doAction?playerID={self.player_id}&gameID={self.game_id}&action={action}").json()
+        return self.__actionize(response['result'])
 
     @staticmethod
     def __actionize(response):
@@ -43,7 +43,7 @@ class ServerRequestManager:
             m = re.fullmatch('([A-Za-z]+)', response)
             if m is None:
                 raise ValueError('Unexpected')
-            return class_map[m.group(1)]()
+            return class_map[sp[0]]()
         elif len(sp) == 2:
             m = re.fullmatch('([A-Za-z]+) ([0-9])+', response)
             if m is None:
