@@ -21,7 +21,8 @@ def helper(response):
         row_tiles = []
         for t in tile_row:
             if t is not None:
-                resources[t['resourceType']] += t['resourceWeight']
+                if t['resourceType'] not in ["WATER", "DUST"]:
+                    resources[t['resourceType']] += t['resourceWeight']
                 row_tiles.append(tile.Tile(t))
         tiles.append(row_tiles)
 

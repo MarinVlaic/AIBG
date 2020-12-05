@@ -91,7 +91,7 @@ def find_road_neighbour(intersection: Intersection, all_intersections: Dict[int,
     second_neighbours = set()
     for first_neigh in first_neighbours:
         second_neighbours = second_neighbours.union(set(all_intersections[first_neigh].neighbouring_intersection_ids))
-    second_neighbours = second_neighbours - first_neighbours - {intersection.id}
+    second_neighbours = second_neighbours - set(first_neighbours) - {intersection.id}
     for value, possible_intersection in possible_intersections:
         if possible_intersection.id in second_neighbours and is_buildable(possible_intersection.id, all_intersections, opponent_player):
             first_neigh_id = set(possible_intersection.neighbouring_intersection_ids).intersection(set(first_neighbours))

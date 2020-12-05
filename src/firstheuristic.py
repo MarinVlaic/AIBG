@@ -29,10 +29,13 @@ def get_intersection_value(intersection: Intersection, resource_counters, all_in
 
 
 def calculate_tile_entropy(tile: Tile, resource_counters: Dict[str, int]):
-    total_sum = sum(resource_counters.values())
-    probability = float(resource_counters[tile.type]) / total_sum
+    if tile.type not in ["WATER", "DUST"]:
+        total_sum = sum(resource_counters.values())
+        probability = float(resource_counters[tile.type]) / total_sum
 
-    return tile.weight * probability * log(1/probability)
+        return tile.weight * probability * log(1/probability)
+
+    return 0
 
 
 def calculate_intersection_value(intersection: Intersection, resource_counters: Dict[str, int]):
