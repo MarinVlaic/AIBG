@@ -11,3 +11,9 @@ class Intersection:
 
     def is_neighbour(self, other):
         return other.id in self.neighbouring_intersection_ids
+
+    def __eq__(self, other):
+        return self.id == other.id
+
+    def __hash__(self):
+        return hash(self.id)

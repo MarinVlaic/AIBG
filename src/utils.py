@@ -33,7 +33,7 @@ def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
     # Generate upgrade cities
 
     if player.has_enough_resources({"WHEAT": 200, "IRON": 300}):
-        [all_moves.append(UpgradeTown(i)) for i in player.cities]
+        [all_moves.append(UpgradeTown(i)) for i in player.cities if i.level == 1]
 
     # Generate build roads
 
