@@ -3,7 +3,6 @@ from mapfeatures.intersection import Intersection
 from math import log
 from typing import Dict
 
-
 def get_intersection_value(intersection: Intersection, resource_counters, all_intersections: Dict[int, Intersection]):
     # Calculate intersection entropy
     intersection_entropy = calculate_intersection_value(intersection, resource_counters)

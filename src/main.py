@@ -30,8 +30,10 @@ player = PlayerProfile(player_id)
 opponent_player = PlayerProfile(2 if player_id == 1 else 1)
 map_state = MapState(player, opponent_player, all_intersections)
 
+claimed_resources = set(["WHEAT", "CLAY", "SHEEP", "WOOD"])
+
 if player_id == 1:
-    action = initial_actions(player, map_state, resources)
+    action = initial_actions(player, map_state, resources, claimed_resources, False)
     map_state.apply_action(action, player)
     resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
 
@@ -40,7 +42,7 @@ if player_id == 1:
     map_state.apply_action(i1, opponent_player)
     map_state.apply_action(i2, opponent_player)
 
-    action = initial_actions(player, map_state, resources)
+    action = initial_actions(player, map_state, resources, claimed_resources, True)
     map_state.apply_action(action, player)
     resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
 
@@ -49,11 +51,11 @@ else:
     action = Initial(int(spl[1]), int(spl[2]))
     map_state.apply_action(action, opponent_player)
 
-    action = initial_actions(player, map_state, resources)
+    action = initial_actions(player, map_state, resources, claimed_resources, False)
     map_state.apply_action(action, player)
     resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
 
-    action = initial_actions(player, map_state, resources)
+    action = initial_actions(player, map_state, resources, claimed_resources, True)
     map_state.apply_action(action, player)
     resp = requests.get(f"{url}doAction?playerID={player_id}&gameID={game_id}&action={action}").json()
 
@@ -71,3 +73,5 @@ while player.get_score() < 16 and opponent_player.get_score() < 16:
     map_state.apply_action(action, player)
     opponent_action = server_access_manager.do_action(action)
     map_state.apply_action(opponent_action, opponent_player)
+
+print("Player one score:", player.get_score(), ", oponent's score: ", opponent_player.get_score())
