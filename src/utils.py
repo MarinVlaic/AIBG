@@ -10,6 +10,7 @@ from typing import Dict
 from src.firstheuristic import *
 from copy import deepcopy
 from map_state_heuristic import get_map_state_grade
+import numpy as np
 from random import randint
 
 
@@ -128,14 +129,72 @@ def initial_actions(player: PlayerProfile, map_state: MapState, resources: Dict[
 
 
 def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
-    possible_moves = []
-    all_available_moves = get_all_available_moves(map_state, player)
-    return all_available_moves[randint(0, len(all_available_moves)) - 1]
-    # for move in get_all_available_moves(map_state, player):
-    #     new_map_state = deepcopy(map_state)
-    #     playing_player = new_map_state.first_player_profile if new_map_state.first_player_profile == player else new_map_state.second_player_profile
-    #     new_map_state.apply_action(move, playing_player)
-    #     possible_moves.append((get_map_state_grade(new_map_state, playing_player, resources), move))
-    # possible_moves.sort(key=lambda x: x[0], reverse=True)
-    # return possible_moves[0][1]
+
+    # Upgrade your best city
+    if player.has_enough_resources({'WHEAT': 200, 'IRON': 300}):
+        city_goodness = []
+        for city in player.cities:
+            goodness = 0.0
+            if city.level == 1:
+                goodness = 0.0
+                for tile in city.intersection.neighbouring_tiles:
+                    goodness += tile.weight
+            city_goodness.append(goodness)
+        best_upgrade_city = player.cities[np.argmax(city_goodness)[0]]
+        if city_goodness[np.argmax(city_goodness)[0]] > 0.0:
+            return UpgradeTown(best_upgrade_city)
+
+    # Build a city
+    lowest_resource = player.resources.items().sort(lambda x: x[1])[0][0]
+    opossing_player = map_state.first_player_profile if player == map_state.second_player_profile else map_state.second_player_profile
+
+    first_neighbours_ids = map_state.all_intersections[player.current_builder_intersection_position_id].neighbouring_intersection_ids
+    second_neighbours_ids = set(x for x in map_state.all_intersections[
+        player.current_builder_intersection_position_id].neighbouring_intersection_ids)
+    second_neighbours_ids -= set([n for n in map_state.all_intersections[
+        player.current_builder_intersection_position_id].neighbouring_intersection_ids])
+    second_neighbours_ids -= {player.current_builder_intersection_position_id}
+    current_best = (get_amount_of_particular_resource_at_intersection(lowest_resource, player.current_builder_intersection_position_id, map_state.all_intersections))
+
+    for first_neighbour in first_neighbours_ids:
+        if is_buildable(first_neighbour, map_state.all_intersections, opossing_player):
+            num_of_resource = get_amount_of_particular_resource_at_intersection(lowest_resource, first_neighbour, map_state.all_intersections)
+            if num_of_resource > current_best[0] or map_state.all_intersections[current_best[1]].captured:
+                current_best = (num_of_resource, first_neighbour)
+
+    for second_neighbour in second_neighbours_ids:
+        if is_buildable(second_neighbour, map_state.all_intersections, opossing_player):
+            num_of_resource = get_amount_of_particular_resource_at_intersection(lowest_resource, second_neighbour, map_state.all_intersections)
+            if num_of_resource > current_best[0] or not is_buildable(current_best[1], map_state.all_intersections, opossing_player):
+                current_best = (num_of_resource, second_neighbour)
+
+    # If current is the best
+    if current_best[1] == player.current_builder_intersection_position_id and player.has_enough_resources({"SHEEP" : 100, "WOOD": 100, "WHEAT": 100, "CLAY": 100}) \
+            and is_buildable(current_best, map_state.all_intersections, opossing_player):
+        return BuildTown(current_best[1])
+
+    # If first is the best
+    if current_best[1] in first_neighbours_ids:
+        if player.has_enough_resources({"WOOD": 100, "CLAY": 100}) and is_road_buildable(player.current_builder_intersection_position_id, current_best[1], map_state.all_intersections, player, opossing_player):
+            return BuildRoad(current_best[1])
+
+    # If second is the best
+    if current_best[1] in second_neighbours_ids:
+        if player.has_enough_resources({"WOOD": 100, "CLAY": 100}):
+            intersection_to_id = (set(map_state.all_intersections[current_best[1]].neighbouring_intersection_ids)\
+                .intersection(set(map_state.all_intersections[player.current_builder_intersection_position_id].neighbouring_intersection_ids)))[0]
+            if is_road_buildable(player.current_builder_intersection_position_id, intersection_to_id, map_state.all_intersections, player, opossing_player):
+                return BuildRoad(intersection_to_id)
+
+    else:
+        return Empty()
+
+
+
+def get_amount_of_particular_resource_at_intersection(resource: str, intersection_id: int, all_intersections: Dict[int, Intersection]):
+    sum = 0
+    for tile in all_intersections[intersection_id].neighbouring_tiles:
+        if tile.type == resource:
+            sum += tile.weight
+    return sum
 
