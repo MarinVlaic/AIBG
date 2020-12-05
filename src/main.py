@@ -30,9 +30,6 @@ player = PlayerProfile(player_id)
 opponent_player = PlayerProfile(2 if player_id == 1 else 1)
 map_state = MapState(player, opponent_player, all_intersections)
 
-# TODO: HARDKOO FIRST INTERSECTION RESET AFTER SECOND INITIAL
-
-
 if player_id == 1:
     action = initial_actions(player, map_state, resources)
     t = threading.Thread(target=map_state.apply_action, args=(action, player))
@@ -73,6 +70,9 @@ else:
     i2 = class_map[m.group(3)](m.group(4)) if m.group(4) else class_map[m.group(3)]()
     map_state.apply_action(i1, opponent_player)
     map_state.apply_action(i2, opponent_player)
+
+player.current_builder_intersection_position_id = player.cities[0].intersection.id
+opponent_player.current_builder_intersection_position_id = opponent_player.cities[0].intersection.id
 
 while player.get_score() < 16 and opponent_player.get_score() < 16:
     action = get_action(player, map_state, resources)
