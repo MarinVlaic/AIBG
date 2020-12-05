@@ -5,7 +5,9 @@ from src.actions.buildtown import BuildTown
 from src.actions.upgradetown import UpgradeTown
 from src.actions.buildroad import BuildRoad
 from src.actions.empty import Empty
+from src.actions.initial import Initial
 from typing import Dict
+from src.firstheuristic import *
 
 
 def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
@@ -84,8 +86,27 @@ def is_road_buildable(intersection_from_id, intersection_to_id, intersections, p
     return False
 
 
+def find_road_neighbour(intersection: Intersection, all_intersections: Dict[int, Intersection], possible_intersections, opponent_player):
+    first_neighbours = intersection.neighbouring_intersection_ids
+    second_neighbours = set()
+    for first_neigh in first_neighbours:
+        second_neighbours = second_neighbours.union(set(all_intersections[first_neigh].neighbouring_intersection_ids))
+    second_neighbours = second_neighbours - first_neighbours - {intersection.id}
+    for value, possible_intersection in possible_intersections:
+        if possible_intersection.id in second_neighbours and is_buildable(possible_intersection.id, all_intersections, opponent_player):
+            first_neigh_id = set(possible_intersection.neighbouring_intersection_ids).intersection(set(first_neighbours))
+            return all_intersections[first_neigh_id.pop()]
+
+
 def initial_actions(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
-    pass
+    possible_intersections = [(get_intersection_value(intersection, resources, map_state.all_intersections), intersection) for intersection in map_state.all_intersections.values()]
+    possible_intersections.sort(key=lambda x: x[0], reverse=True)
+    opponent_player = map_state.first_player_profile if map_state.first_player_profile != player else map_state.second_player_profile
+    for value, possible_intersection in possible_intersections:
+        if is_buildable(possible_intersection.id, map_state.all_intersections, opponent_player):
+            intersection_choice = possible_intersection
+            road_neighbour = find_road_neighbour(intersection_choice, map_state.all_intersections, possible_intersections, opponent_player)
+            return Initial(intersection_choice.id, road_neighbour.id)
 
 
 def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
