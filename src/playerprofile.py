@@ -8,8 +8,9 @@ class PlayerProfile:
             "CLAY": 0,
             "IRON": 0
         }
-        self.current_builder_intersection_position = None
+        self.current_builder_intersection_position_id = None
         self.id = id
+        self.owned_roads = set()
 
     def get_score(self) -> int:
         return sum(map(lambda x: x.level, self.cities))
@@ -19,6 +20,12 @@ class PlayerProfile:
             if resource_dict[resource] > self.resources[resource]:
                 return False
         return True
+
+    def add_road(self, destination_intersection_id):
+        if self.current_builder_intersection_position_id > destination_intersection_id:
+            self.owned_roads.add((destination_intersection_id, self.current_builder_intersection_position_id))
+        else:
+            self.owned_roads.add((self.current_builder_intersection_position_id, destination_intersection_id))
 
     def __eq__(self, other):
         if other.id != self.id:
@@ -30,3 +37,9 @@ class PlayerProfile:
             for resource in self.resources:
                 retval = retval and self.resources[resource] == other.resources[resource]
             return retval
+
+    def check_road(self, id1, id2):
+        if id1 > id2:
+            return (id2, id1) in self.owned_roads
+        else:
+            return (id1, id2) in self.owned_roads
