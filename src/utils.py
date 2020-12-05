@@ -8,6 +8,8 @@ from src.actions.empty import Empty
 from src.actions.initial import Initial
 from typing import Dict
 from src.firstheuristic import *
+from copy import deepcopy
+from map_state_heuristic import get_map_state_grade
 
 
 def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
@@ -47,6 +49,7 @@ def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
 
     # Generate empty
     all_moves.append(Empty())
+    return all_moves
 
 def is_buildable(intersection_id, intersections, opposing_player: PlayerProfile):
     intersection = intersections[intersection_id]
@@ -110,4 +113,12 @@ def initial_actions(player: PlayerProfile, map_state: MapState, resources: Dict[
 
 
 def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
-    pass
+    possible_moves = []
+    for move in get_all_available_moves(map_state, player):
+        new_map_state = deepcopy(map_state)
+        new_map_state.apply_action(move)
+        possible_moves.append((get_map_state_grade(new_map_state, player, resources), move))
+
+    possible_moves.sort(key=lambda x: x[0], reverse=True)
+    return possible_moves[0]
+
