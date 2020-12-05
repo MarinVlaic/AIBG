@@ -15,8 +15,8 @@ import threading
 game_id = int(input("Game id: "))
 player_id = int(input("Player id: "))
 
-train = bool(input("Is train: "))
-url = 'http://localhost:9080/game/' if not train else 'http://localhost:9080/train/'
+train = False
+url = 'http://localhost:9080/' if not train else 'http://localhost:9080/train/'
 
 server_access_manager = ServerRequestManager(url, player_id, game_id)
 response = server_access_manager.init_connection()
@@ -61,7 +61,7 @@ else:
 
     m = re.fullmatch('initial ([0-9]+) ([0-9]+) ([A-Za-z]+)( [0-9]+)*', resp['result'])
     i1 = Initial(int(m.group(1)), int(m.group(2)))
-    i2 = class_map[m.group(3)](m.group(4)) if m.group(4) else class_map[m.group(3)]()
+    i2 = class_map[m.group(3)](int(m.group(4))) if m.group(4) else class_map[m.group(3)]()
     map_state.apply_action(i1, opponent_player)
     map_state.apply_action(i2, opponent_player)
 

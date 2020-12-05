@@ -25,7 +25,7 @@ class ServerRequestManager:
         self.player_id = player_id
 
     def init_connection(self):
-        response = requests.get(f"{self.server_url}play?playerID={self.player_id}&gameID={self.game_id}")
+        response = requests.get(f"{self.server_url}/game/play?playerID={self.player_id}&gameID={self.game_id}")
         return response.json()
 
     def check_action(self, action: Action) -> bool:
