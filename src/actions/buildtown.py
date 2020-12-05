@@ -18,6 +18,6 @@ class BuildTown(Action):
         player_profile.resources["WHEAT"] -= 100
         player_profile.resources["CLAY"] -= 100
 
-        player_profile.cities.append(City(intersections.get(self.intersection_index)))
+        player_profile.cities.append(City(intersections[self.intersection_index]))
 
-        intersections.get(self.intersection_index).captured = True
+        intersections[self.intersection_index].captured = True
