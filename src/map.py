@@ -1,41 +1,35 @@
 import json
 from src.mapfeatures import tile
 
+def helper(response):
+    resources = {
+        "SHEEP": 0,
+        "WOOD": 0,
+        "WHEAT": 0,
+        "CLAY": 0,
+        "IRON": 0
+    }
+    full_map_info = response['result']
 
-class Map:
-    def __init__(self, response):
-        full_map_info = response['result']
+    intersection_neighbourhood = full_map_info['indexMap']
+    tile_neighbourhood = full_map_info['intersectionCoordinates']
+    map = full_map_info['map']
 
-        self.intersection_neighbourhood = full_map_info['indexMap']
-        self.tile_neighbourhood = full_map_info['intersectionCoordinates']
-        self.map = full_map_info['map']
+    tile_info = map['tiles']
+    tiles = []
+    for tile_row in tile_info:
+        row_tiles = []
+        for t in tile_row:
+            if t is not None:
+                resources[t['resourceType']] += t['resourceWeight']
+                row_tiles.append(tile.Tile(t))
+        tiles.append(row_tiles)
 
-        self.tile_info = self.map['tiles']
-        self.tiles = []
-        self.create_tiles()
+    return intersection_neighbourhood, tile_neighbourhood, tiles, resources
 
-    def create_tiles(self):
-        self.tiles = []
-        for tile_row in self.tile_info:
-            row_tiles = []
-            for t in tile_row:
-                if t is not None:
-                    row_tiles.append(tile.Tile(t))
-            self.tiles.append(row_tiles)
+def get_intersection_neighs(intersection_neighbourhood, index):
+    return intersection_neighbourhood[index]
 
-    def get_intersection_neighs(self, index):
-        return self.intersection_neighbourhood[index]
+def get_tiles_neighs(tiles, tile_neighbourhood, index):
+    return [tiles[neigh['y']][neigh['x']] for neigh in tile_neighbourhood[index]]
 
-    def get_tiles_neighs(self, index):
-        return [self.tiles[neigh['y']][neigh['x']] for neigh in self.tile_neighbourhood[index]]
-
-
-def main():
-    with open('../../karta1.json') as map_file:
-        full_map = Map(json.load(map_file))
-    print(full_map.get_intersection_neighs(40))
-    [print(neigh) for neigh in (full_map.get_tiles_neighs(40))]
-
-
-if __name__ == '__main__':
-    main()
