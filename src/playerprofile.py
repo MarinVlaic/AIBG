@@ -43,3 +43,9 @@ class PlayerProfile:
             return (id2, id1) in self.owned_roads
         else:
             return (id1, id2) in self.owned_roads
+
+    def update_resources(self):
+        for city in self.cities:
+            for tile in city.intersection.neighbouring_tiles:
+                if tile.type not in ("WATER", "DUST"):
+                    self.resources[tile.type] += tile.weight * city.level

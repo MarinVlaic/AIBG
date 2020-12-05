@@ -12,4 +12,5 @@ class MapState:
 
     def apply_action(self, action: Action, player: PlayerProfile):
         action.apply_action(player, self.all_intersections)
-        pass
+        self.first_player_profile.update_resources()
+        self.second_player_profile.update_resources()
