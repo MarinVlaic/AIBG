@@ -27,8 +27,10 @@ def helper(response):
 
     return intersection_neighbourhood, tile_neighbourhood, tiles, resources
 
+
 def get_intersection_neighs(intersection_neighbourhood, index):
     return intersection_neighbourhood[index]
+
 
 def get_tiles_neighs(tiles, tile_neighbourhood, index):
     return [tiles[neigh['y']][neigh['x']] for neigh in tile_neighbourhood[index]]

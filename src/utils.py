@@ -5,6 +5,7 @@ from src.actions.buildtown import BuildTown
 from src.actions.upgradetown import UpgradeTown
 from src.actions.buildroad import BuildRoad
 from src.actions.empty import Empty
+from typing import Dict
 
 
 def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
@@ -81,3 +82,11 @@ def is_road_buildable(intersection_from_id, intersection_to_id, intersections, p
             return True
 
     return False
+
+
+def initial_actions(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
+    pass
+
+
+def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, int]):
+    pass

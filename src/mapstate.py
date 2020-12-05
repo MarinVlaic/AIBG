@@ -10,6 +10,6 @@ class MapState:
         self.second_player_profile = second_player_profile
         self.all_intersections = all_intersections
 
-    def apply_action(self, action: Action):
-        #TODO: apply logic to applaying move to the map state (call .aplly on move object)
+    def apply_action(self, action: Action, player: PlayerProfile):
+        action.apply_action(player, self.all_intersections)
         pass

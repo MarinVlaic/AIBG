@@ -12,7 +12,7 @@ class Move(Action):
     def apply_action(self, player_profile: PlayerProfile, intersections: Dict[int, Intersection]):
         player_profile.current_builder_intersection_position = intersections[self.intersection_id]
 
-        if self.intersection_id not in intersections[self.intersection_id].roads_to_neighbouring_intersections:
+        if not player_profile.check_road(self.intersection_id, player_profile.current_builder_intersection_position_id):
             player_profile.resources["SHEEP"] -= 50
             player_profile.resources["WHEAT"] -= 50
 
