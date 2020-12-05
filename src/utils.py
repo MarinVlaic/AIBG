@@ -9,8 +9,10 @@ from src.actions.empty import Empty
 
 def get_all_available_moves(mapstate: MapState, player: PlayerProfile):
     selected_player = mapstate.first_player_profile
-    # TODO: NEED TO CHANGE THIS!!!!!!
-    opposing_player = mapstate.second_player_profile # TODO: look up
+    opposing_player = mapstate.second_player_profile
+    if selected_player.id != player.id:
+        selected_player, opposing_player = opposing_player, selected_player
+
     all_moves = []
     current_builder_position_id = mapstate.all_intersections[selected_player.current_builder_intersection_position_id].id
 
