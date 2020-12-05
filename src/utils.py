@@ -206,7 +206,7 @@ def get_action(player: PlayerProfile, map_state: MapState, resources: Dict[str, 
     # Go using random free road
     neighbour_intersections =  map_state.all_intersections[player.current_builder_intersection_position_id].neighbouring_intersection_ids
     for intersection in neighbour_intersections:
-        if player.check_road(intersection, player.current_builder_intersection_position_id) and random() < 0.3:
+        if player.check_road(intersection, player.current_builder_intersection_position_id):
             return Move(intersection)
 
     return Empty()
