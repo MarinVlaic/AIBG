@@ -6,6 +6,7 @@ from src.actions.upgradetown import UpgradeTown
 from src.actions.buildroad import BuildRoad
 from src.actions.empty import Empty
 from src.actions.initial import Initial
+from src.mapfeatures.intersection import Intersection
 from typing import Dict
 from src.firstheuristic import *
 
